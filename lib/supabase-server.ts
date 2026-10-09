@@ -9,7 +9,7 @@ export async function getServerSupabase() {
  return createServerClient(url,key,{
   cookies:{
    getAll(){return jar.getAll()},
-   setAll(values){try{values.forEach(({name,value,options})=>jar.set(name,value,options))}catch{/* Server Components cannot set cookies. */}}
+   setAll(values: { name: string; value: string; options?: Parameters<typeof jar.set>[2] }[]){try{values.forEach(({name,value,options})=>jar.set(name,value,options))}catch{/* Server Components cannot set cookies. */}}
   }
  });
 }
