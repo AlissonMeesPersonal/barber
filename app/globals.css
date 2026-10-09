@@ -8,3 +8,10 @@
 .auth-form input{background:#252a2d;color:#fff;border:1px solid #4c5557;border-radius:8px;padding:14px;width:100%}
 .auth-form .button{width:100%;margin-top:5px}
 .auth-error{background:#542b2b;padding:12px;border-radius:8px;color:#ffdada!important}
+
+.booking-progress{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.booking-progress span{font-size:11px;color:#899294;background:#262b2d;padding:8px 12px;border-radius:40px}
+.booking-progress span.on{color:#0d1112;background:var(--accent)}
+.returning{display:flex;align-items:center;gap:14px;background:#252a2c;border:1px solid #3b4344;padding:15px;border-radius:12px;margin-bottom:30px}
+.returning>svg{color:var(--accent)}.returning>div{flex:1;min-width:0}.returning strong,.returning small{display:block}.returning small{color:#aeb6b7;font-size:12px;margin-top:4px;overflow-wrap:anywhere}.returning button{background:transparent;border:0;color:var(--accent)}.booking-next{width:100%}
+@media(max-width:520px){.booking-progress{gap:5px}.booking-progress span{font-size:10px;padding:7px}.returning{flex-wrap:wrap}}
