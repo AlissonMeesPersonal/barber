@@ -37,3 +37,23 @@ export async function assignService(form:FormData){
  const {error}=await db.from("professional_services").upsert({shop_id:shopId,professional_id:String(form.get("professional_id")),service_id:String(form.get("service_id"))},{onConflict:"professional_id,service_id"});
  if(error)throw new Error("Erro ao vincular serviço");revalidatePath("/gestor");
 }
+
+export async function addWorkingHours(form:FormData){
+ const id=String(form.get("shop_id")||"");
+ const db=await authorized(id);
+ const professional_id=String(form.get("professional_id")||"");
+ const weekday=Number(form.get("weekday"));
+ const start_local=String(form.get("start_local")||"");
+ const end_local=String(form.get("end_local")||"");
+ if(!Number.isInteger(weekday)||weekday<0||weekday>6||!/^\d{2}:\d{2}$/.test(start_local)||!/^\d{2}:\d{2}$/.test(end_local)||end_local<=start_local)throw new Error("Horário inválido");
+ const {error}=await db.from("working_hours").insert({shop_id:id,professional_id,weekday,start_local,end_local});
+ if(error)throw new Error("Não foi possível salvar expediente.");
+ revalidatePath("/gestor/horarios");
+}
+export async function removeWorkingHours(form:FormData){
+ const id=String(form.get("shop_id")||"");
+ const db=await authorized(id);
+ const {error}=await db.from("working_hours").delete().eq("shop_id",id).eq("id",String(form.get("hour_id")||""));
+ if(error)throw new Error("Não foi possível remover expediente.");
+ revalidatePath("/gestor/horarios");
+}
