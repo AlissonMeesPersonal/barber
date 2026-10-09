@@ -23,5 +23,5 @@ export async function saveAppearance(form:FormData){
  const {error}=await db.from("barbershops").update(fields).eq("id",id);if(error)throw new Error("Erro ao salvar identidade visual");
  const {data:shop}=await db.from("barbershops").select("slug").eq("id",id).single();
  revalidatePath("/gestor/aparencia");if(shop)revalidatePath("/b/"+shop.slug);
- redirect("/gestor/aparencia?shop="+id+"&salvo=1");
+ redirect(admin?"/ceo/empresa/"+id+"/aparencia?salvo=1":"/gestor/aparencia?salvo=1");
 }
