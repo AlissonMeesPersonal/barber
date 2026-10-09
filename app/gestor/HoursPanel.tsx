@@ -1,0 +1,10 @@
+import Link from "next/link";
+import {addWorkingHours,removeWorkingHours} from "./actions";
+type Pro={id:string;name:string};
+type Hour={id:string;professional_id:string;weekday:number;start_local:string;end_local:string};
+const week=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+export default function HoursPanel({shopId,shopName,pros,hours,back}:{shopId:string;shopName:string;pros:Pro[];hours:Hour[];back:string}){
+ return <main className="editor-shell"><div className="editor-top"><div><span className="eyebrow">OPERAÇÃO DA BARBEARIA</span><h1>Horários de funcionamento</h1><p>{shopName} · Configure os períodos em que cada profissional atende.</p></div><Link href={back} className="button secondary">Voltar ao painel</Link></div>
+ <section className="panel"><h2>Cadastrar expediente</h2><p>Esses intervalos determinam os horários oferecidos aos clientes, respeitando reservas existentes.</p>{pros.length===0?<p>Cadastre primeiro um barbeiro no painel.</p>:<form className="manager-form" action={addWorkingHours}><input type="hidden" name="shop_id" value={shopId}/><label>Profissional<select name="professional_id">{pros.map(p=><option value={p.id} key={p.id}>{p.name}</option>)}</select></label><label>Dia da semana<select name="weekday">{week.map((w,i)=><option value={i} key={w}>{w}</option>)}</select></label><label>Começa às<input type="time" name="start_local" defaultValue="09:00" required/></label><label>Termina às<input type="time" name="end_local" defaultValue="18:00" required/></label><button className="button primary">Salvar expediente</button></form>}</section>
+ <section className="panel"><h2>Escalas cadastradas</h2>{hours.length===0&&<p>Nenhum horário cadastrado.</p>}{hours.map(h=><div className="manager-list" key={h.id}><div><strong>{pros.find(p=>p.id===h.professional_id)?.name||"Profissional"}</strong><p>{week[h.weekday]} · {h.start_local.slice(0,5)}–{h.end_local.slice(0,5)}</p></div><form action={removeWorkingHours}><input type="hidden" name="shop_id" value={shopId}/><input type="hidden" name="hour_id" value={h.id}/><button className="button secondary">Remover</button></form></div>)}</section></main>;
+}
