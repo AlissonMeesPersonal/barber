@@ -8,7 +8,7 @@ export default async function Empresa({params}:{params:Promise<{id:string}>}){
  const {data:admin}=await db.from("platform_admins").select("user_id").eq("user_id",user.id).maybeSingle();if(!admin)redirect("/gestor");
  const [shop,services,pros,appointments,clients,cashback,referrals]=await Promise.all([
  db.from("barbershops").select("id,name,slug").eq("id",id).single(),
- db.from("services").select("id,name,price_cents,duration_minutes,active").eq("shop_id",id).order("name"),
+ db.from("services").select("id,name,price_cents,duration_minutes,active,cashback_mode,cashback_value").eq("shop_id",id).order("name"),
  db.from("professionals").select("id,name,active").eq("shop_id",id).order("name"),
  db.from("appointments").select("id,status,price_cents,starts_at,professional_id,client_id").eq("shop_id",id).order("starts_at",{ascending:false}).limit(50),
  db.from("clients").select("id,name").eq("shop_id",id).order("name"),
