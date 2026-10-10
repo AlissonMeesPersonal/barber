@@ -57,3 +57,21 @@ export async function removeWorkingHours(form:FormData){
  if(error)throw new Error("Não foi possível remover expediente.");
  revalidatePath("/gestor/horarios");
 }
+
+export async function saveServiceCashback(form:FormData){
+ const shopId=String(form.get("shop_id")||"");
+ const db=await authorized(shopId);
+ const mode=String(form.get("cashback_mode")||"off");
+ const value=Number(form.get("cashback_value"));
+ if(!["off","percent","fixed"].includes(mode)||!Number.isFinite(value)||value<0||(mode==="percent"&&value>100)||(mode==="fixed"&&value>10000))throw new Error("Valor de cashback inválido");
+ const {error}=await db.from("services").update({cashback_mode:mode,cashback_value:mode==="off"?0:value}).eq("shop_id",shopId).eq("id",String(form.get("service_id")||""));
+ if(error)throw new Error("Não foi possível salvar o cashback");
+ revalidatePath("/gestor");revalidatePath("/ceo");revalidatePath("/ceo/empresa/"+shopId);
+}
+export async function completeAppointment(form:FormData){
+ const shopId=String(form.get("shop_id")||"");
+ const db=await authorized(shopId);
+ const {data,error}=await db.from("appointments").update({status:"completed"}).eq("shop_id",shopId).eq("id",String(form.get("appointment_id")||"")).in("status",["confirmed","pending"]).select("id").maybeSingle();
+ if(error||!data)throw new Error("Este atendimento não pôde ser concluído");
+ revalidatePath("/gestor");revalidatePath("/ceo/empresa/"+shopId);
+}
