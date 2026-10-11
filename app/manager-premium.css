@@ -1,0 +1,23 @@
+/* BarberFlow SaaS manager design system. Scoped to management only. */
+.management-page{--bf-bg:#0b0b0b;--bf-surface:#171717;--bf-border:#343434;--bf-muted:#a5a5a5;--bf-text:#fafafa;--accent:#fff!important;color:var(--bf-text)}
+.management-page .editor-top{padding:18px 0 28px;border-bottom:1px solid #303030;align-items:flex-start}
+.management-page .editor-top h1{font-size:clamp(28px,3vw,40px);letter-spacing:-1.2px;color:#fff}
+.management-page .editor-top p{color:#aaa}
+.management-page .eyebrow{color:#b4b4b4;font-weight:700;letter-spacing:1.8px}
+.management-page .button.primary{background:#fff!important;color:#080808!important;border:1px solid #fff!important;box-shadow:none!important;font-weight:750;border-radius:11px}
+.management-page .button.secondary{background:#1c1c1c!important;color:#eee!important;border:1px solid #424242!important;border-radius:11px}
+.management-page .button:hover{filter:brightness(1.12)}
+.management-page .panel,.management-page .kpi{background:#171717!important;border:1px solid #323232!important;border-radius:17px!important;box-shadow:0 12px 36px #0003}
+.management-page .kpi strong{color:#fff;letter-spacing:-.9px}
+.management-page .kpi span,.management-page .panel>p{color:#aaa}
+.management-page .manager-tabs{gap:9px;border-bottom:1px solid #303030;padding-bottom:18px}
+.management-page .manager-tabs button{background:#171717!important;color:#ccc!important;border:1px solid #343434!important;border-radius:11px!important;padding:13px 17px}
+.management-page .manager-tabs button.active{background:#fff!important;color:#080808!important;border-color:#fff!important;font-weight:750}
+.management-page .manager-form input,.management-page .manager-form select,.management-page .cashback-rule input,.management-page .cashback-rule select{background:#101010!important;border:1px solid #414141!important;color:#fff!important;border-radius:10px!important;min-height:46px}
+.management-page .manager-form input:focus,.management-page .manager-form select:focus{outline:none;border-color:#fff!important;box-shadow:0 0 0 3px #ffffff15}
+.management-page .manager-list{border-color:#333}
+.management-page .cashback-settings{border-color:#333}
+.tenant-switcher{background:#151515!important;border:1px solid #333!important;border-radius:14px}
+.tenant-switcher label,.tenant-switcher span{color:#e1e1e1}
+.tenant-switcher select{background:#0b0b0b!important;border:1px solid #444!important;color:#fff!important}
+@media(max-width:680px){.management-page .editor-top{gap:18px}.management-page .manager-tabs{flex-wrap:wrap}.management-page .manager-tabs button{padding:11px 13px}}
