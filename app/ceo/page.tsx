@@ -1,12 +1,18 @@
-import Link from "next/link";
 import {redirect} from "next/navigation";
 import {getServerSupabase} from "@/lib/supabase-server";
+import CeoConsole from "./CeoConsole";
 export const dynamic="force-dynamic";
-export default async function Ceo(){
+export default async function Ceo({searchParams}:{searchParams:Promise<{aba?:string}>}){
  const db=await getServerSupabase();if(!db)redirect("/gestor/login");
  const {data:{user}}=await db.auth.getUser();if(!user)redirect("/gestor/login");
- const {data:role}=await db.from("platform_admins").select("role").eq("user_id",user.id).maybeSingle();
- if(!role)redirect("/gestor");
- const {data:shops,error}=await db.from("barbershops").select("id,name,slug,active,created_at").order("name");
- return <main className="executive-shell"><div className="executive-head"><div><span className="eyebrow">BARBERFLOW · PLATAFORMA</span><h1>BarberFlow · Administração geral</h1><p>Controle central de barbearias — sua conta não faz parte da equipe dos estabelecimentos.</p></div><form action="/gestor/sair" method="post"><button className="button secondary">Sair</button></form></div><section className="executive-companies"><h2>Empresas cadastradas</h2><p>{shops?.length??0} barbearias na plataforma</p>{error&&<p>Não foi possível carregar as empresas.</p>}{shops?.map(s=><div className="executive-company" key={s.id}><div><strong>{s.name}</strong><p>{s.slug} · {s.active?"Ativa":"Inativa"}</p></div><div className="executive-actions"><Link className="button secondary" href={"/b/"+s.slug}>Página pública</Link><Link className="button secondary" href={"/ceo/empresa/"+s.id}>Administrar empresa</Link><Link className="button primary" href={"/ceo/empresa/"+s.id+"/aparencia"}>Personalizar</Link></div></div>)}</section></main>;
+ const {data:admin}=await db.from("platform_admins").select("user_id").eq("user_id",user.id).maybeSingle();if(!admin)redirect("/gestor");
+ const [shops,plans,subscriptions,users,members]=await Promise.all([
+  db.from("barbershops").select("id,name,slug,active").order("name"),
+  db.from("saas_plans").select("id,name,price_cents,billing_period,max_shops").order("name"),
+  db.from("saas_subscriptions").select("id,shop_id,plan_id,status,current_period_end"),
+  db.rpc("ceo_user_directory"),
+  db.from("memberships").select("shop_id,user_id,role")
+ ]);
+ const tab=(await searchParams).aba||"overview";
+ return <CeoConsole tab={tab} shops={shops.data||[]} plans={plans.data||[]} subscriptions={subscriptions.data||[]} users={users.data||[]} members={members.data||[]}/>;
 }
