@@ -36,3 +36,10 @@
 .ceo-form>button:hover{background:#ddd}
 @media(max-width:960px){.ceo-app{grid-template-columns:1fr}.ceo-sidebar{border-right:0;border-bottom:1px solid #303030;padding:22px;flex-direction:row;align-items:center;flex-wrap:wrap}.ceo-brand{margin:0 14px 0 0}.ceo-sidebar>p{display:none}.ceo-sidebar form{margin:0 0 0 auto;padding:0}.ceo-content{padding:28px 22px}.ceo-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.ceo-sidebar>a:not(.ceo-brand){font-size:12px;padding:10px}.ceo-sidebar form{width:100%}.ceo-metrics{gap:9px}.ceo-metrics article{padding:18px;min-height:118px}.ceo-entry{align-items:flex-start;flex-direction:column}.ceo-form{align-items:stretch;flex-direction:column}.ceo-form input,.ceo-form select,.ceo-form>button{width:100%}}
+
+/* Instant client-side navigation in CEO console */
+.ceo-sidebar .ceo-tab{display:block;width:100%;text-align:left;background:transparent;border:0;color:#aaa;padding:15px 16px;text-decoration:none;border-radius:11px;font:inherit;font-size:14px;cursor:pointer;transition:background .15s,color .15s}
+.ceo-sidebar .ceo-tab:hover{background:#1c1c1c;color:#fff}
+.ceo-sidebar .ceo-tab.current{background:#242424;color:#fff;border:1px solid #3d3d3d;font-weight:700}
+.ceo-links button{background:none;color:#fff;border:0;border-bottom:1px solid #777;padding:0 0 2px;cursor:pointer;font:inherit;font-size:13px}
+.ceo-links button:hover{border-bottom-color:#fff}
