@@ -86,3 +86,65 @@
 .ceo-admin-tag{font-size:12px;color:#bbb;border:1px solid #444;border-radius:8px;padding:8px 11px}
 @media(max-width:1180px){.ceo-access-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.ceo-access-form{grid-template-columns:1fr}.ceo-user-entry{align-items:stretch}.ceo-user-entry button{white-space:normal}}
+
+/* Integrated CEO > Barbearias: networks, units and subscriptions */
+.ceo-company-dashboard{display:grid;gap:22px}
+.ceo-company-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.ceo-company-metrics article{border:1px solid #303030;background:#171717;border-radius:15px;padding:20px;display:grid;gap:13px}
+.ceo-company-metrics article span{font-size:12px;color:#aaa}
+.ceo-company-metrics article strong{font-size:31px;letter-spacing:-.8px}
+.ceo-company-create{background:linear-gradient(130deg,#1c1c1c,#101010);border:1px solid #393939;border-radius:18px;padding:24px}
+.ceo-company-create-title,.ceo-company-network-head,.ceo-company-section-title{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.ceo-company-create-title h2{font-size:22px;margin:7px 0 6px}
+.ceo-company-create-title p,.ceo-company-section-title p,.ceo-company-network-head p{color:#a7a7a7;font-size:13px;line-height:1.5}
+.ceo-company-primary{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #fff;background:#fff;color:#0b0b0b;border-radius:10px;padding:12px 17px;min-height:46px;font-weight:750;cursor:pointer}
+.ceo-company-primary:disabled,.ceo-company-secondary:disabled{opacity:.5;cursor:not-allowed}
+.ceo-company-primary:hover:not(:disabled){background:#e6e6e6}
+.ceo-company-secondary{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#242424;border:1px solid #525252;color:#fff;border-radius:10px;padding:11px 14px;font-size:13px;min-height:42px;cursor:pointer}
+.ceo-company-secondary:hover:not(:disabled){background:#343434}
+.ceo-company-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px;align-items:end}
+.ceo-company-form label{display:grid;gap:8px;font-size:12px;color:#ccc;min-width:0}
+.ceo-company-form input,.ceo-company-form select{background:#101010;color:#fff;border:1px solid #494949;border-radius:10px;padding:12px 13px;min-height:47px;width:100%;min-width:0}
+.ceo-company-form input:focus,.ceo-company-form select:focus{outline:0;border-color:#fff;box-shadow:0 0 0 3px #ffffff19}
+.ceo-company-form-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:7px}
+.ceo-company-form-footer span{font-size:12px;color:#aaa;max-width:550px;line-height:1.55}
+.ceo-company-feedback{padding:12px 14px;border-radius:10px;font-size:12px;margin-top:14px;grid-column:1/-1;line-height:1.5}
+.ceo-company-feedback.success{background:#1e2920;border:1px solid #44634b;color:#dbf3df}
+.ceo-company-feedback.error{background:#311c1c;border:1px solid #814747;color:#ffe0e0}
+.ceo-company-section{margin-bottom:0!important}
+.ceo-company-section-title{margin-bottom:17px}
+.ceo-company-section .ceo-filters{display:flex;align-items:center;gap:12px;padding-bottom:21px;border-bottom:1px solid #303030}
+.ceo-company-section .ceo-filters svg{color:#aaa}
+.ceo-company-section .ceo-filters input{flex:1;max-width:360px}
+.ceo-company-network{border:1px solid #383838;background:#131313;border-radius:15px;margin:20px 0;overflow:hidden}
+.ceo-company-network-head{padding:21px 23px;border-bottom:1px solid #343434}
+.ceo-company-network-head h3{font-size:19px;letter-spacing:-.4px;margin:7px 0}
+.ceo-company-network-head p{margin:0!important;word-break:break-word}
+.ceo-company-network-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.ceo-company-pill{border:1px solid #4a4a4a;color:#d3d3d3;border-radius:9px;padding:9px 10px;background:#222;font-size:11px;white-space:nowrap}
+.ceo-company-units{padding:0 23px}
+.ceo-company-unit{display:flex;align-items:center;gap:15px;border-bottom:1px solid #303030;padding:17px 0}
+.ceo-company-unit:last-child{border-bottom:0}
+.ceo-company-unit-icon{background:#272727;color:#ddd;border:1px solid #484848;border-radius:12px;padding:12px;display:flex;flex-shrink:0}
+.ceo-company-unit-info{display:grid;gap:6px;min-width:0;flex:1}
+.ceo-company-unit-info strong{font-size:14px;overflow-wrap:anywhere}
+.ceo-company-unit-info small{font-size:11px;color:#aaa;overflow-wrap:anywhere}
+.ceo-company-unit-actions{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.ceo-company-unit-actions a{color:#eee;font-size:12px;display:inline-flex;gap:4px;align-items:center;text-decoration:underline;text-underline-offset:4px}
+.ceo-company-unit-actions form{margin:0}
+.ceo-company-unit-actions button{border:1px solid #555;color:#ddd;background:#272727;border-radius:8px;padding:9px 11px;font-size:12px;cursor:pointer}
+.ceo-company-capacity{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;background:#191919;border-top:1px solid #343434;padding:15px 23px}
+.ceo-company-capacity>span,.ceo-company-empty{font-size:12px;color:#a8a8a8}
+.ceo-company-detail{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #343434;padding:22px;background:#1b1b1b}
+.ceo-company-detail>div{min-width:0}
+.ceo-company-detail h4{font-size:15px;margin:0 0 14px}
+.ceo-company-detail .ceo-contract-form{grid-template-columns:1fr;margin-top:0}
+.ceo-company-detail .ceo-contract-form label{min-width:0}
+.ceo-company-detail .ceo-network-form{margin-top:0}
+.ceo-unit-create{flex:1 1 240px}
+.ceo-unit-create>.ceo-company-secondary{margin-left:auto;display:flex}
+.ceo-add-unit-form{grid-template-columns:1fr 1fr auto;margin:14px 0}
+.ceo-company-empty{padding:18px 0}
+@media(max-width:1100px){.ceo-company-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ceo-company-unit{align-items:flex-start;flex-wrap:wrap}.ceo-company-unit-actions{justify-content:flex-start;flex:1 1 100%}}
+@media(max-width:850px){.ceo-company-network-head,.ceo-company-create-title{flex-direction:column;align-items:flex-start}.ceo-company-detail{grid-template-columns:1fr}.ceo-add-unit-form{grid-template-columns:1fr 1fr}.ceo-company-network-actions{justify-content:flex-start}}
+@media(max-width:600px){.ceo-company-form,.ceo-add-unit-form{grid-template-columns:1fr}.ceo-company-form-footer{flex-direction:column;align-items:stretch}.ceo-company-form-footer button,.ceo-company-create-title button{width:100%}.ceo-company-create{padding:17px}.ceo-company-network-head,.ceo-company-units,.ceo-company-capacity,.ceo-company-detail{padding-left:15px;padding-right:15px}.ceo-company-section .ceo-filters{align-items:stretch;flex-wrap:wrap}.ceo-company-section .ceo-filters input{max-width:none;width:100%}.ceo-company-metrics article{padding:16px}}
