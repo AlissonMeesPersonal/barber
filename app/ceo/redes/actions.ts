@@ -21,11 +21,24 @@ export async function createNetwork(form:FormData){
  revalidatePath("/ceo/redes");revalidatePath("/ceo");
  redirect("/ceo/redes?criada=1");
 }
-export async function assignNetworkOwner(form:FormData){
+export type OwnerAssignmentState={kind:"idle"|"linked"|"pending"|"error";message:string};
+export async function assignNetworkOwner(_previous:OwnerAssignmentState,form:FormData):Promise<OwnerAssignmentState>{
  const db=await ceoDb();
- const {error}=await db.rpc("ceo_set_network_owner",{p_network:String(form.get("network_id")||""),p_email:String(form.get("email")||"")});
- if(error)throw new Error(error.message);
+ const networkId=String(form.get("network_id")||"");
+ const email=String(form.get("email")||"").trim().toLowerCase();
+ if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||email.length>254)
+  return {kind:"error",message:"Informe um e-mail válido para o proprietário."};
+ const {data,error}=await db.rpc("ceo_invite_network_owner",{p_network:networkId,p_email:email});
+ if(error){
+  const detail=error.message||"";
+  if(detail.includes("CEO"))return {kind:"error",message:"A conta administrativa do BarberFlow não pode ser proprietária de uma rede. Use o e-mail exclusivo do proprietário."};
+  if(detail.includes("Rede não encontrada"))return {kind:"error",message:"Rede não encontrada. Atualize a página e tente novamente."};
+  if(detail.includes("E-mail inválido"))return {kind:"error",message:"Verifique o e-mail informado."};
+  return {kind:"error",message:"Não foi possível registrar o acesso. Tente novamente ou consulte o suporte."};
+ }
  revalidatePath("/ceo/redes");revalidatePath("/ceo");
+ if(data==="linked")return {kind:"linked",message:"Proprietário vinculado com sucesso. Ele já pode acessar a rede com suas credenciais."};
+ return {kind:"pending",message:"Convite registrado. Compartilhe o link de cadastro com o proprietário. Após criar e confirmar seu e-mail, a rede será vinculada automaticamente no primeiro login."};
 }
 export async function addNetworkUnitAsCeo(form:FormData){
  const db=await ceoDb();
