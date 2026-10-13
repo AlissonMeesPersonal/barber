@@ -19,5 +19,24 @@ export async function saveSubscription(f:FormData){
  }
  revalidatePath("/ceo");revalidatePath("/ceo/redes");revalidatePath("/gestor/rede");
 }
-export async function assignManager(f:FormData){const db=await admin();const {error}=await db.rpc("ceo_assign_manager",{target_email:String(f.get("email")),target_shop:String(f.get("shop_id")),target_role:String(f.get("role"))});if(error)throw Error(error.message);revalidatePath("/ceo");}
+export type ManagerInvitationState={status:"idle"|"linked"|"pending"|"error";message:string};
+export async function assignManager(_previous:ManagerInvitationState,f:FormData):Promise<ManagerInvitationState>{
+ const db=await admin();
+ const email=String(f.get("email")||"").trim().toLowerCase();
+ const shop=String(f.get("shop_id")||"");
+ const role=String(f.get("role")||"manager");
+ if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||email.length>254)
+  return {status:"error",message:"Informe um endereço de e-mail válido."};
+ if(!["manager","owner"].includes(role)||!shop)
+  return {status:"error",message:"Selecione uma barbearia e um perfil válido."};
+ const {data,error}=await db.rpc("ceo_invite_shop_access",{p_email:email,p_shop:shop,p_role:role});
+ if(error){
+  if(error.message?.includes("CEO"))return {status:"error",message:"Use uma conta diferente do CEO para administrar esta barbearia."};
+  if(error.message?.includes("Barbearia"))return {status:"error",message:"Barbearia não encontrada. Atualize a página."};
+  return {status:"error",message:"Não foi possível registrar o acesso. Confira os dados e tente novamente."};
+ }
+ revalidatePath("/ceo");revalidatePath("/gestor");
+ if(data==="linked")return {status:"linked",message:"Acesso autorizado. O usuário já pode entrar com suas credenciais."};
+ return {status:"pending",message:"Convite pendente registrado. Compartilhe o link de cadastro. O acesso será liberado no primeiro login após a confirmação do e-mail."};
+}
 export async function toggleShop(f:FormData){const db=await admin();const {error}=await db.from("barbershops").update({active:String(f.get("active"))==="true"}).eq("id",String(f.get("shop_id")));if(error)throw Error(error.message);revalidatePath("/ceo");}
