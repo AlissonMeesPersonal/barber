@@ -13,7 +13,7 @@ export default function CeoConsole({tab,shops,plans,subscriptions,users,members,
  const [search,setSearch]=useState("");
  const [statusFilter,setStatusFilter]=useState("all");
  const [accessEmail,setAccessEmail]=useState("");
- const [accessRole,setAccessRole]=useState<"owner"|"manager">("owner");
+ const [accessRole,setAccessRole]=useState<"owner"|"manager"|"network_owner">("owner");
  const getSub=(id:string)=>subscriptions.find(x=>x.shop_id===id);
  const getPlan=(id:string)=>plans.find(x=>x.id===id);
  const monthly=(p:Plan|undefined)=>p?(p.billing_period==="yearly"?p.price_cents/12:p.billing_period==="quarterly"?p.price_cents/3:p.price_cents):0;
