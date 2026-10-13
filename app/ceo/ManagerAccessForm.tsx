@@ -5,7 +5,7 @@ import {assignManager,type ManagerInvitationState} from "./actions";
 
 type Shop={id:string;name:string};
 type Account={user_id:string;email:string;confirmed:boolean;shop_count:number};
-type AccessRole="manager"|"owner";
+type AccessRole="manager"|"owner"|"network_owner";
 const initialState:ManagerInvitationState={status:"idle",message:""};
 
 export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,setSelectedEmail,selectedRole,setSelectedRole}:{
@@ -43,7 +43,8 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
    </label>
    <label>Permissão
     <select name="role" value={selectedRole} onChange={e=>setSelectedRole(e.target.value as AccessRole)}>
-     <option value="owner">Proprietário da unidade</option>
+     <option value="owner">Proprietário somente desta unidade</option>
+     <option value="network_owner">Proprietário da rede (todas as unidades)</option>
      <option value="manager">Gestor da unidade</option>
     </select>
    </label>
@@ -51,6 +52,6 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
   </form>
   {mode==="registered"&&current&&!current.confirmed&&<p className="ceo-invitation-feedback is-pending">Esta conta foi criada, mas o e-mail ainda está pendente de confirmação. O vínculo será registrado e o acesso liberado quando a conta for confirmada e fizer login.</p>}
   {state.message&&<p className={"ceo-invitation-feedback "+(state.status==="error"?"is-error":state.status==="pending"?"is-pending":"is-success")} role="status" aria-live="polite">{state.message}</p>}
-  <p className="ceo-invitation-help">O proprietário ou gestor entra com suas próprias credenciais. Se o e-mail não estiver confirmado, o convite aguardará a confirmação. <Link href="/gestor/cadastro" target="_blank">Abrir cadastro ↗</Link></p>
+  <p className="ceo-invitation-help">Proprietário da rede recebe acesso a todas as suas unidades; proprietário da unidade recebe acesso somente ao estabelecimento escolhido. O proprietário ou gestor entra com suas próprias credenciais. Se o e-mail não estiver confirmado, o convite aguardará a confirmação. <Link href="/gestor/cadastro" target="_blank">Abrir cadastro ↗</Link></p>
  </div>;
 }
