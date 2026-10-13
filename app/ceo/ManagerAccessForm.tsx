@@ -30,14 +30,13 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
    <button type="button" className={mode==="manual"?"selected":""} onClick={()=>setMode("manual")}>Convidar outro e-mail</button>
   </div>
   <form action={submit} className="ceo-form ceo-access-form">
-   <input type="hidden" name="email" value={email}/>
    <label>Conta do proprietário ou gestor
     {mode==="registered"
-     ?<select value={email} required onChange={e=>setSelectedEmail(e.target.value)}>
+     ?<select name="email" value={email} required onChange={e=>setSelectedEmail(e.target.value)}>
        <option value="">Escolha um e-mail cadastrado</option>
        {selectable.map(user=><option key={user.user_id} value={user.email}>{user.email} — {user.confirmed?"Confirmado":"Aguardando confirmação"}</option>)}
       </select>
-     :<input type="email" value={manualEmail} onChange={e=>setManualEmail(e.target.value)} required placeholder="nome@exemplo.com" autoComplete="off"/>}
+     :<input type="email" name="email" value={manualEmail} onChange={e=>setManualEmail(e.target.value)} required placeholder="nome@exemplo.com" autoComplete="off"/>}
    </label>
    <label>Barbearia
     <select name="shop_id" required value={chosenShop||state.shopId||shops[0]?.id||""} onChange={e=>setChosenShop(e.target.value)}>{shops.map(shop=><option value={shop.id} key={shop.id}>{shop.name}</option>)}</select>
@@ -49,10 +48,11 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
      <option value="manager">Gestor da unidade</option>
     </select>
    </label>
-   <button type="submit" disabled={isPending||!email}>{isPending?"Salvando...":"Vincular à barbearia"}</button>
+   <button type="submit" disabled={isPending||!email||mode==="registered"&&!selectable.some(user=>user.email===email)}>{isPending?"Salvando...":"Vincular à barbearia"}</button>
   </form>
   {mode==="registered"&&current&&!current.confirmed&&<p className="ceo-invitation-feedback is-pending">Esta conta foi criada, mas o e-mail ainda está pendente de confirmação. O vínculo será registrado e o acesso liberado quando a conta for confirmada e fizer login.</p>}
-  {state.message&&<p className={"ceo-invitation-feedback "+(state.status==="error"?"is-error":state.status==="pending"?"is-pending":"is-success")} role="status" aria-live="polite">{state.message}</p>}
+  {state.message&&state.email===email&&<p className={"ceo-invitation-feedback "+(state.status==="error"?"is-error":state.status==="pending"?"is-pending":"is-success")} role="status" aria-live="polite">{state.message}</p>}
+  {mode==="registered"&&!email&&<p className="ceo-invitation-help">Selecione um e-mail no campo acima antes de vincular.</p>}
   <p className="ceo-invitation-help">Proprietário da rede recebe acesso a todas as suas unidades; proprietário da unidade recebe acesso somente ao estabelecimento escolhido. O proprietário ou gestor entra com suas próprias credenciais. Se o e-mail não estiver confirmado, o convite aguardará a confirmação. <Link href="/gestor/cadastro" target="_blank">Abrir cadastro ↗</Link></p>
  </div>;
 }
