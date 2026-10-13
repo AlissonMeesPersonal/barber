@@ -27,15 +27,28 @@ export async function assignManager(_previous:ManagerInvitationState,f:FormData)
  const role=String(f.get("role")||"manager");
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)
   return {status:"error",message:"Informe um endereço de e-mail válido."};
- if(!["manager","owner"].includes(role)||!shop)
+ if(!["manager","owner","network_owner"].includes(role)||!shop)
   return {status:"error",message:"Selecione uma barbearia e um perfil válido."};
- const {data,error}=await db.rpc("ceo_invite_shop_access",{p_email:email,p_shop:shop,p_role:role});
- if(error){
-  if(error.message?.includes("CEO"))return {status:"error",message:"Use uma conta diferente do CEO para administrar esta barbearia."};
-  if(error.message?.includes("Barbearia"))return {status:"error",message:"Barbearia não encontrada. Atualize a página."};
-  return {status:"error",message:"Não foi possível registrar o acesso. Confira os dados e tente novamente."};
+ let data:string|null=null;
+ if(role==="network_owner"){
+  const {data:unit,error:unitError}=await db.from("barbershops").select("network_id").eq("id",shop).maybeSingle();
+  if(unitError||!unit?.network_id)return {status:"error",message:"Esta barbearia não pertence a uma rede cadastrada. Selecione Proprietário da unidade."};
+  const response=await db.rpc("ceo_invite_network_owner",{p_network:unit.network_id,p_email:email});
+  if(response.error){
+   if(response.error.message?.includes("CEO"))return {status:"error",message:"Uma conta CEO não pode ser proprietária de rede."};
+   return {status:"error",message:"Não foi possível vincular o proprietário da rede. Confira os dados."};
+  }
+  data=response.data;
+ }else{
+  const response=await db.rpc("ceo_invite_shop_access",{p_email:email,p_shop:shop,p_role:role});
+  if(response.error){
+   if(response.error.message?.includes("CEO"))return {status:"error",message:"Use uma conta diferente do CEO para administrar esta barbearia."};
+   if(response.error.message?.includes("Barbearia"))return {status:"error",message:"Barbearia não encontrada. Atualize a página."};
+   return {status:"error",message:"Não foi possível registrar o acesso. Confira os dados e tente novamente."};
+  }
+  data=response.data;
  }
- revalidatePath("/ceo");revalidatePath("/gestor");
+ revalidatePath("/ceo");revalidatePath("/ceo/redes");revalidatePath("/gestor");
  if(data==="linked")return {status:"linked",message:"Acesso autorizado. O usuário já pode entrar com suas credenciais."};
  return {status:"pending",message:"Convite pendente registrado. Compartilhe o link de cadastro. O acesso será liberado no primeiro login após a confirmação do e-mail."};
 }
