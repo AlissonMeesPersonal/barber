@@ -23,3 +23,14 @@
 @media(max-width:680px){.management-page .editor-top{gap:18px}.management-page .manager-tabs{flex-wrap:wrap}.management-page .manager-tabs button{padding:11px 13px}}
 
 .manager-plan-bar{max-width:1300px;margin:16px auto 0;padding:22px 26px;background:#171717;border:1px solid #343434;border-radius:16px;color:#fff;display:flex;justify-content:space-between;gap:25px;align-items:center}.manager-plan-bar>div{display:grid;gap:7px}.manager-plan-bar span{font-size:10px;letter-spacing:1.8px;color:#999;font-weight:750}.manager-plan-bar strong{font-size:19px;letter-spacing:-.4px}.manager-plan-bar small{font-size:12px;color:#a4a4a4}.manager-plan-capacity{border-left:1px solid #363636;padding-left:25px;text-align:right}@media(max-width:750px){.manager-plan-bar{margin:14px 12px;padding:18px;flex-direction:column;align-items:stretch}.manager-plan-capacity{border-left:0;border-top:1px solid #363636;padding:16px 0 0;text-align:left}}
+
+/* Separate SaaS administration and individual manager access */
+.manager-account-toolbar{max-width:1300px;margin:24px auto 0;padding:15px 24px;border:1px solid #333;background:#141414;color:#fff;border-radius:15px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.manager-account-toolbar>div{display:grid;gap:4px}.manager-account-toolbar span{color:#a0a0a0;font-size:10px;letter-spacing:1.6px;font-weight:700}
+.manager-account-toolbar strong{font-size:15px;overflow-wrap:anywhere}.manager-account-toolbar small{font-size:12px;color:#aaa}
+.manager-account-toolbar button{background:#222;color:white;border:1px solid #484848}
+.manager-auth-page .auth-card{border:1px solid #343434;background:#171717}
+.manager-auth-page .auth-card h1{color:#fff}.manager-auth-page .auth-card .eyebrow{color:#c6c6c6}
+.manager-auth-page .auth-card .button.primary{background:#fff;color:#111;border:1px solid #fff}
+.manager-login-actions{display:grid;gap:12px;margin:16px 0}.manager-auth-page .auth-card>small{font-size:12px;color:#aaa;line-height:1.5}
+@media(max-width:700px){.manager-account-toolbar{margin:16px 12px;flex-direction:column;align-items:stretch}.manager-account-toolbar button{width:100%}}
