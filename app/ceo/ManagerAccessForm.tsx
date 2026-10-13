@@ -20,9 +20,9 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
  const [state,submit,isPending]=useActionState(assignManager,initialState);
  const [mode,setMode]=useState<"registered"|"manual">("registered");
  const [manualEmail,setManualEmail]=useState("");
- const email=mode==="registered"?selectedEmail:manualEmail.trim();
+ const email=mode==="registered"?(selectedEmail||(state.email&&users.some(u=>u.email===state.email&&!ceoUserIds.includes(u.user_id))?state.email:"")):manualEmail.trim();
  const selectable=users.filter(user=>!ceoUserIds.includes(user.user_id));
- const current=users.find(user=>user.email===selectedEmail);
+ const current=users.find(user=>user.email===email);
  return <div className="ceo-manager-access" id="ceo-access-form">
   <div className="ceo-access-toggle">
    <button type="button" className={mode==="registered"?"selected":""} onClick={()=>setMode("registered")}>Selecionar usuário cadastrado</button>
@@ -32,7 +32,7 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
    <input type="hidden" name="email" value={email}/>
    <label>Conta do proprietário ou gestor
     {mode==="registered"
-     ?<select value={selectedEmail} required onChange={e=>setSelectedEmail(e.target.value)}>
+     ?<select value={email} required onChange={e=>setSelectedEmail(e.target.value)}>
        <option value="">Escolha um e-mail cadastrado</option>
        {selectable.map(user=><option key={user.user_id} value={user.email}>{user.email} — {user.confirmed?"Confirmado":"Aguardando confirmação"}</option>)}
       </select>
