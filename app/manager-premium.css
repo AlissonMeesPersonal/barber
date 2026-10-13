@@ -34,3 +34,49 @@
 .manager-auth-page .auth-card .button.primary{background:#fff;color:#111;border:1px solid #fff}
 .manager-login-actions{display:grid;gap:12px;margin:16px 0}.manager-auth-page .auth-card>small{font-size:12px;color:#aaa;line-height:1.5}
 @media(max-width:700px){.manager-account-toolbar{margin:16px 12px;flex-direction:column;align-items:stretch}.manager-account-toolbar button{width:100%}}
+
+/* Service permissions by individual barber. Scoped to owner/manager operations. */
+.management-page .barber-service-panel{background:#141414;border:1px solid #343434;border-radius:20px;padding:27px;margin:20px 0;box-shadow:0 12px 36px #0003}
+.management-page .barber-service-heading{display:flex;align-items:start;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid #343434;margin-bottom:24px}
+.management-page .barber-service-heading h2{font-size:clamp(23px,2.3vw,30px);letter-spacing:-.8px;margin:10px 0 8px;color:#fff}
+.management-page .barber-service-heading p{color:#a9a9a9;line-height:1.6;font-size:14px;max-width:670px}
+.management-page .barber-service-count{border:1px solid #3d3d3d;background:#1e1e1e;border-radius:12px;padding:14px 19px;min-width:133px;display:grid;gap:2px;text-align:center}
+.management-page .barber-service-count strong{font-size:27px;color:#fff}
+.management-page .barber-service-count span{color:#aaa;font-size:11px}
+.management-page .barber-service-grid{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);gap:20px}
+.management-page .barber-service-people{display:grid;align-content:start;gap:9px}
+.management-page .barber-service-aside-title{color:#aaa;text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:1.1px;display:flex;justify-content:space-between;padding:3px 4px 7px}
+.management-page .barber-service-person{width:100%;display:flex;align-items:center;gap:11px;text-align:left;border:1px solid #343434;background:#1b1b1b;color:#f3f3f3;border-radius:13px;padding:13px;cursor:pointer;transition:background .15s,border-color .15s}
+.management-page .barber-service-person:hover{background:#252525}
+.management-page .barber-service-person.selected{border-color:#f7f7f7;background:#272727}
+.management-page .barber-service-avatar{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;font-weight:800;background:#303030;border:1px solid #444;border-radius:12px}
+.management-page .barber-service-person.selected .barber-service-avatar{background:#fff;color:#111}
+.management-page .barber-service-person-text{display:grid;gap:5px;min-width:0;flex:1}
+.management-page .barber-service-person-text strong{overflow-wrap:anywhere;font-size:14px}
+.management-page .barber-service-person-text small{color:#aaa;font-size:11px}
+.management-page .barber-service-settings{background:#1a1a1a;border:1px solid #363636;border-radius:16px;padding:22px;min-width:0}
+.management-page .barber-service-settings-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:19px}
+.management-page .barber-service-settings-heading h3{font-size:23px;color:white;letter-spacing:-.6px;margin:7px 0}
+.management-page .barber-service-settings-heading p{color:#aaa;font-size:13px}
+.management-page .barber-service-indicator{white-space:nowrap;border:1px solid #494949;border-radius:9px;padding:8px 11px;color:#cfcfcf;font-size:11px}
+.management-page .barber-service-row{display:flex;align-items:center;gap:14px;border-top:1px solid #363636;padding:17px 0}
+.management-page .barber-service-status{border:1px solid #444;border-radius:10px;background:#242424;color:#9e9e9e;padding:12px;display:flex}
+.management-page .barber-service-status.linked{background:#333;color:white}
+.management-page .barber-service-details{flex:1;display:grid;gap:7px;min-width:0}
+.management-page .barber-service-details strong{color:#f5f5f5;font-size:15px;overflow-wrap:anywhere}
+.management-page .barber-service-details small{color:#aaa;font-size:12px}
+.management-page .barber-service-toggle{border:1px solid #f5f5f5;background:#fff;color:#101010;min-width:118px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:10px;padding:12px 14px;font-size:12px;font-weight:750;cursor:pointer}
+.management-page .barber-service-toggle.linked{background:#232323;color:#fff;border-color:#555}
+.management-page .barber-service-toggle:hover:not(:disabled){filter:brightness(.89)}
+.management-page .barber-service-toggle:disabled{opacity:.45;cursor:not-allowed}
+.management-page .barber-service-note{color:#929292;font-size:12px;line-height:1.6;margin-top:17px}
+.management-page .barber-service-feedback{color:#fff;padding:13px 15px;background:#252525;border:1px solid #555;border-radius:10px;font-size:13px;margin-top:13px}
+.management-page .barber-service-empty{padding:40px 18px;text-align:center;display:grid;justify-items:center;gap:12px}
+.management-page .barber-service-empty h3{color:#fff;margin:0}
+.management-page .barber-service-empty p{color:#aaa}
+.management-page .barber-service-shortcut{margin-top:22px;background:#222;border:1px solid #414141;border-radius:14px;padding:17px}
+.management-page .barber-service-shortcut h3{margin:0 0 8px;color:#fff}
+.management-page .barber-service-shortcut p{font-size:13px;color:#aaa;line-height:1.6}
+.management-page .barber-service-shortcut button{margin-top:12px}
+@media(max-width:830px){.management-page .barber-service-grid{grid-template-columns:1fr}.management-page .barber-service-people{grid-template-columns:repeat(2,minmax(0,1fr))}.management-page .barber-service-aside-title{grid-column:1/-1}}
+@media(max-width:550px){.management-page .barber-service-panel{padding:16px}.management-page .barber-service-heading{flex-direction:column}.management-page .barber-service-count{width:100%}.management-page .barber-service-people{grid-template-columns:1fr}.management-page .barber-service-settings{padding:15px}.management-page .barber-service-settings-heading{flex-direction:column;align-items:flex-start}.management-page .barber-service-row{flex-wrap:wrap;gap:10px}.management-page .barber-service-toggle{margin-left:auto}.management-page .barber-service-details{flex:1 1 calc(100% - 80px)}}
