@@ -12,11 +12,12 @@ export async function signIn(form:FormData){
  if(error)redirect("/gestor/login?erro=login");
  const {data:{user},error:userError}=await db.auth.getUser();
  if(userError||!user){await db.auth.signOut();redirect("/gestor/login?erro=login");}
- const [{data:admin},{data:member}]=await Promise.all([
+ const [{data:admin},{data:member},{data:owned}]=await Promise.all([
   db.from("platform_admins").select("user_id").eq("user_id",user.id).maybeSingle(),
-  db.from("memberships").select("shop_id").eq("user_id",user.id).in("role",["owner","manager"]).limit(1).maybeSingle()
+  db.from("memberships").select("shop_id").eq("user_id",user.id).in("role",["owner","manager"]).limit(1).maybeSingle(),
+  db.from("barbershop_networks").select("id").eq("owner_user_id",user.id).limit(1).maybeSingle()
  ]);
  if(admin){await db.auth.signOut();redirect("/gestor/login?erro=ceo");}
- if(!member){await db.auth.signOut();redirect("/gestor/login?erro=permissao");}
- redirect("/gestor");
+ if(!member&&!owned){await db.auth.signOut();redirect("/gestor/login?erro=permissao");}
+ redirect(member?"/gestor":"/gestor/rede");
 }
