@@ -73,3 +73,16 @@
 .ceo-manager-access .ceo-invitation-help{font-size:12px;color:#aeb0b5;line-height:1.6}
 .ceo-manager-access .ceo-invitation-help a{text-decoration:underline;color:#fff;text-underline-offset:3px}
 .ceo-manager-access button:disabled{opacity:.55;cursor:wait}
+
+/* CEO directory — direct account-to-barbershop assignment */
+.ceo-access-toggle{display:flex;gap:9px;flex-wrap:wrap;margin-top:21px}
+.ceo-access-toggle button{background:#181818;color:#b8b8b8;border:1px solid #393939;border-radius:9px;padding:11px 15px;font-size:13px;cursor:pointer}
+.ceo-access-toggle button.selected{background:#fff;color:#080808;border-color:#fff;font-weight:750}
+.ceo-access-form{display:grid;grid-template-columns:minmax(220px,1.7fr) minmax(150px,1fr) minmax(170px,1fr) auto;align-items:end;gap:12px}
+.ceo-access-form>label{display:grid;gap:8px;font-size:12px;color:#b8b8b8;min-width:0}
+.ceo-access-form>label>input,.ceo-access-form>label>select{width:100%;min-width:0;min-height:48px}
+.ceo-user-entry button{border:1px solid #777;background:#242424;color:white;border-radius:9px;padding:11px 16px;white-space:nowrap;cursor:pointer}
+.ceo-user-entry button:hover{background:#fff;color:#111}
+.ceo-admin-tag{font-size:12px;color:#bbb;border:1px solid #444;border-radius:8px;padding:8px 11px}
+@media(max-width:1180px){.ceo-access-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.ceo-access-form{grid-template-columns:1fr}.ceo-user-entry{align-items:stretch}.ceo-user-entry button{white-space:normal}}
