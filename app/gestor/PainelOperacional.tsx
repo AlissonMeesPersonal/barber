@@ -11,8 +11,8 @@ type Apt={id:string;status:string;price_cents:number;starts_at:string;profession
 type Client={id:string;name:string};
 type Cashback={client_id:string;amount_cents:number};
 type Referral={id:string;referrer_client_id:string;status:string};
-export default function PainelOperacional({shop,services,professionals,serviceLinks,appointments,clients,cashback,referrals,ceo=false}:{shop:Shop;services:Service[];professionals:Pro[];serviceLinks:ServiceLink[];appointments:Apt[];clients:Client[];cashback:Cashback[];referrals:Referral[];ceo?:boolean}){
- const [section,setSection]=useState("overview");
+export default function PainelOperacional({shop,services,professionals,serviceLinks,appointments,clients,cashback,referrals,initialSection="overview",ceo=false}:{shop:Shop;services:Service[];professionals:Pro[];serviceLinks:ServiceLink[];appointments:Apt[];clients:Client[];cashback:Cashback[];referrals:Referral[];initialSection?:string;ceo?:boolean}){
+ const [section,setSection]=useState(initialSection);
  const paid=appointments.filter(a=>a.status==="completed"),revenue=paid.reduce((v,a)=>v+a.price_cents,0);
  const balance=new Map<string,number>();cashback.forEach(c=>balance.set(c.client_id,(balance.get(c.client_id)||0)+c.amount_cents));
  const money=(n:number)=>(n/100).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
