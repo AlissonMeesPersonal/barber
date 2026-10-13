@@ -26,7 +26,7 @@ export async function assignManager(_previous:ManagerInvitationState,f:FormData)
  const shop=String(f.get("shop_id")||"");
  const role=String(f.get("role")||"manager");
  const metadata={email,shopId:shop,role};
- if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||email.length>254)
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)
   return {status:"error",message:"Informe um endereço de e-mail válido.",...metadata};
  if(!["manager","owner","network_owner"].includes(role)||!shop)
   return {status:"error",message:"Selecione uma barbearia e um perfil válido.",...metadata};
