@@ -75,3 +75,23 @@ export async function completeAppointment(form:FormData){
  if(error||!data)throw new Error("Este atendimento não pôde ser concluído");
  revalidatePath("/gestor");revalidatePath("/ceo/empresa/"+shopId);
 }
+
+export async function setProfessionalServiceLink({shopId,professionalId,serviceId,enabled}:{shopId:string;professionalId:string;serviceId:string;enabled:boolean}):Promise<{ok:boolean;message:string}>{
+ const db=await authorized(shopId);
+ if(!shopId||!professionalId||!serviceId||typeof enabled!=="boolean")return {ok:false,message:"Seleção inválida."};
+ const [p,s]=await Promise.all([
+  db.from("professionals").select("id,active").eq("shop_id",shopId).eq("id",professionalId).maybeSingle(),
+  db.from("services").select("id,active").eq("shop_id",shopId).eq("id",serviceId).maybeSingle()
+ ]);
+ if(p.error||s.error||!p.data||!s.data)return {ok:false,message:"Profissional ou serviço não pertence a esta unidade."};
+ if(enabled&&(!p.data.active||!s.data.active))return {ok:false,message:"Ative o barbeiro e o serviço antes de vincular."};
+ if(enabled){
+  const {error}=await db.from("professional_services").upsert({shop_id:shopId,professional_id:professionalId,service_id:serviceId},{onConflict:"professional_id,service_id"});
+  if(error)return {ok:false,message:"Não foi possível habilitar o serviço. Tente novamente."};
+ }else{
+  const {error}=await db.from("professional_services").delete().eq("shop_id",shopId).eq("professional_id",professionalId).eq("service_id",serviceId);
+  if(error)return {ok:false,message:"Não foi possível remover o vínculo. Tente novamente."};
+ }
+ revalidatePath("/gestor");revalidatePath("/ceo/empresa/"+shopId);
+ return {ok:true,message:enabled?"Serviço habilitado para este barbeiro.":"Serviço desvinculado deste barbeiro."};
+}
