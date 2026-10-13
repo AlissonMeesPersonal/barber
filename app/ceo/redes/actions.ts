@@ -37,13 +37,7 @@ export async function updateNetworkPlan(form:FormData){
  const db=await ceoDb();
  const networkId=String(form.get("network_id")||""),planId=String(form.get("plan_id")||""),status=String(form.get("status")||"trial"),date=String(form.get("period_end")||"");
  if(!["trial","active","past_due","paused","cancelled"].includes(status))throw new Error("Status inválido");
- const [{data:plan},{count}]=await Promise.all([
-  db.from("saas_plans").select("max_shops").eq("id",planId).single(),
-  db.from("barbershops").select("id",{count:"exact",head:true}).eq("network_id",networkId)
- ]);
- if(!plan)throw new Error("Plano não encontrado");
- if((count||0)>plan.max_shops)throw new Error("O plano selecionado permite menos unidades do que a rede já possui.");
- const {error}=await db.from("network_subscriptions").upsert({network_id:networkId,plan_id:planId,status,current_period_end:date||null},{onConflict:"network_id"});
+ const {error}=await db.rpc("ceo_save_network_contract",{p_network:networkId,p_plan:planId,p_status:status,p_period_end:date||null});
  if(error)throw new Error(error.message);
  revalidatePath("/ceo/redes");revalidatePath("/ceo");
 }
