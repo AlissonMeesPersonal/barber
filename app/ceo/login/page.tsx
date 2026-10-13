@@ -1,0 +1,7 @@
+import Link from "next/link";
+import {signInCeo} from "./actions";
+export default async function CeoLogin({searchParams}:{searchParams:Promise<{erro?:string}>}){
+ const {erro}=await searchParams;
+ const message=erro==="configuracao"?"Autenticação temporariamente indisponível.":erro==="permissao"?"Esta conta não é administradora do BarberFlow. Utilize o acesso do gestor.":erro?"E-mail ou senha incorretos.":"";
+ return <main className="ceo-login-page"><section className="ceo-login-card"><Link className="ceo-login-brand" href="/">✂ BarberFlow <span>CEO</span></Link><div className="eyebrow">ACESSO EXECUTIVO · PLATAFORMA SAAS</div><h1>Administração BarberFlow</h1><p>Entre com suas credenciais exclusivas de administrador geral. Esta área não é o painel das barbearias.</p>{message&&<div role="alert" className="ceo-login-error">{message}</div>}<form action={signInCeo} className="ceo-login-form"><label>E-mail administrativo<input type="email" name="email" autoComplete="username" required placeholder="seu@email.com"/></label><label>Senha<input type="password" name="password" autoComplete="current-password" required placeholder="Sua senha"/></label><button type="submit">Acessar console CEO →</button></form><div className="ceo-login-bottom"><span>É gestor de uma barbearia?</span><Link href="/gestor/login">Acessar painel do gestor</Link></div></section></main>;
+}
