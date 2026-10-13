@@ -19,37 +19,38 @@ export async function saveSubscription(f:FormData){
  }
  revalidatePath("/ceo");revalidatePath("/ceo/redes");revalidatePath("/gestor/rede");
 }
-export type ManagerInvitationState={status:"idle"|"linked"|"pending"|"error";message:string};
+export type ManagerInvitationState={status:"idle"|"linked"|"pending"|"error";message:string;email?:string;shopId?:string;role?:string};
 export async function assignManager(_previous:ManagerInvitationState,f:FormData):Promise<ManagerInvitationState>{
  const db=await admin();
  const email=String(f.get("email")||"").trim().toLowerCase();
  const shop=String(f.get("shop_id")||"");
  const role=String(f.get("role")||"manager");
- if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)
-  return {status:"error",message:"Informe um endereço de e-mail válido."};
+ const metadata={email,shopId:shop,role};
+ if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||email.length>254)
+  return {status:"error",message:"Informe um endereço de e-mail válido.",...metadata};
  if(!["manager","owner","network_owner"].includes(role)||!shop)
-  return {status:"error",message:"Selecione uma barbearia e um perfil válido."};
+  return {status:"error",message:"Selecione uma barbearia e um perfil válido.",...metadata};
  let data:string|null=null;
  if(role==="network_owner"){
   const {data:unit,error:unitError}=await db.from("barbershops").select("network_id").eq("id",shop).maybeSingle();
-  if(unitError||!unit?.network_id)return {status:"error",message:"Esta barbearia não pertence a uma rede cadastrada. Selecione Proprietário da unidade."};
+  if(unitError||!unit?.network_id)return {status:"error",message:"Esta barbearia não pertence a uma rede cadastrada. Selecione Proprietário da unidade.",...metadata};
   const response=await db.rpc("ceo_invite_network_owner",{p_network:unit.network_id,p_email:email});
   if(response.error){
-   if(response.error.message?.includes("CEO"))return {status:"error",message:"Uma conta CEO não pode ser proprietária de rede."};
-   return {status:"error",message:"Não foi possível vincular o proprietário da rede. Confira os dados."};
+   if(response.error.message?.includes("CEO"))return {status:"error",message:"Uma conta CEO não pode ser proprietária de rede.",...metadata};
+   return {status:"error",message:"Não foi possível vincular o proprietário da rede. Confira os dados.",...metadata};
   }
   data=response.data;
  }else{
   const response=await db.rpc("ceo_invite_shop_access",{p_email:email,p_shop:shop,p_role:role});
   if(response.error){
-   if(response.error.message?.includes("CEO"))return {status:"error",message:"Use uma conta diferente do CEO para administrar esta barbearia."};
-   if(response.error.message?.includes("Barbearia"))return {status:"error",message:"Barbearia não encontrada. Atualize a página."};
-   return {status:"error",message:"Não foi possível registrar o acesso. Confira os dados e tente novamente."};
+   if(response.error.message?.includes("CEO"))return {status:"error",message:"Use uma conta diferente do CEO para administrar esta barbearia.",...metadata};
+   if(response.error.message?.includes("Barbearia"))return {status:"error",message:"Barbearia não encontrada. Atualize a página.",...metadata};
+   return {status:"error",message:"Não foi possível registrar o acesso. Confira os dados e tente novamente.",...metadata};
   }
   data=response.data;
  }
  revalidatePath("/ceo");revalidatePath("/ceo/redes");revalidatePath("/gestor");
- if(data==="linked")return {status:"linked",message:"Acesso autorizado. O usuário já pode entrar com suas credenciais."};
- return {status:"pending",message:"Convite pendente registrado. Compartilhe o link de cadastro. O acesso será liberado no primeiro login após a confirmação do e-mail."};
+ if(data==="linked")return {status:"linked",message:"Acesso autorizado! O usuário já pode entrar com suas credenciais.",...metadata};
+ return {status:"pending",message:"Autorização registrada. O acesso será liberado quando o usuário confirmar o e-mail e fizer login.",...metadata};
 }
 export async function toggleShop(f:FormData){const db=await admin();const {error}=await db.from("barbershops").update({active:String(f.get("active"))==="true"}).eq("id",String(f.get("shop_id")));if(error)throw Error(error.message);revalidatePath("/ceo");}
