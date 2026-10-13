@@ -26,7 +26,7 @@ export async function assignNetworkOwner(_previous:OwnerAssignmentState,form:For
  const db=await ceoDb();
  const networkId=String(form.get("network_id")||"");
  const email=String(form.get("email")||"").trim().toLowerCase();
- if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||email.length>254)
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)
   return {kind:"error",message:"Informe um e-mail válido para o proprietário."};
  const {data,error}=await db.rpc("ceo_invite_network_owner",{p_network:networkId,p_email:email});
  if(error){
