@@ -63,3 +63,13 @@
 .ceo-login-error{border:1px solid #985050;background:#361d1d;color:#ffdede;padding:13px;border-radius:10px;font-size:13px;margin-top:20px}
 .ceo-login-bottom{border-top:1px solid #303030;margin-top:26px;padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:#aaa}
 .ceo-login-bottom a{color:white;text-decoration:underline}
+
+/* Safe status messaging for CEO manager invitations */
+.ceo-manager-access{margin:8px 0 16px}
+.ceo-invitation-feedback{padding:13px 16px;border:1px solid #444;border-radius:10px;font-size:13px;line-height:1.6;margin:10px 0}
+.ceo-invitation-feedback.is-pending{background:#29251d;border-color:#6f6341;color:#f5e3bb}
+.ceo-invitation-feedback.is-error{background:#351c1c;border-color:#854c4c;color:#ffe0e0}
+.ceo-invitation-feedback.is-success{background:#1b2e23;border-color:#4e7856;color:#d7f3df}
+.ceo-manager-access .ceo-invitation-help{font-size:12px;color:#aeb0b5;line-height:1.6}
+.ceo-manager-access .ceo-invitation-help a{text-decoration:underline;color:#fff;text-underline-offset:3px}
+.ceo-manager-access button:disabled{opacity:.55;cursor:wait}
