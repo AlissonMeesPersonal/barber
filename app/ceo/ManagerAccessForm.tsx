@@ -20,6 +20,7 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
  const [state,submit,isPending]=useActionState(assignManager,initialState);
  const [mode,setMode]=useState<"registered"|"manual">("registered");
  const [manualEmail,setManualEmail]=useState("");
+ const [chosenShop,setChosenShop]=useState<string|null>(null);
  const email=mode==="registered"?(selectedEmail||(state.email&&users.some(u=>u.email===state.email&&!ceoUserIds.includes(u.user_id))?state.email:"")):manualEmail.trim();
  const selectable=users.filter(user=>!ceoUserIds.includes(user.user_id));
  const current=users.find(user=>user.email===email);
@@ -39,7 +40,7 @@ export default function ManagerAccessForm({shops,users,ceoUserIds,selectedEmail,
      :<input type="email" value={manualEmail} onChange={e=>setManualEmail(e.target.value)} required placeholder="nome@exemplo.com" autoComplete="off"/>}
    </label>
    <label>Barbearia
-    <select name="shop_id" required>{shops.map(shop=><option value={shop.id} key={shop.id}>{shop.name}</option>)}</select>
+    <select name="shop_id" required value={chosenShop||state.shopId||shops[0]?.id||""} onChange={e=>setChosenShop(e.target.value)}>{shops.map(shop=><option value={shop.id} key={shop.id}>{shop.name}</option>)}</select>
    </label>
    <label>Permissão
     <select name="role" value={selectedRole} onChange={e=>setSelectedRole(e.target.value as AccessRole)}>
